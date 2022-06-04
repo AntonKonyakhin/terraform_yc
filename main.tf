@@ -1,7 +1,7 @@
 provider "yandex" {
-  #  token = ""
-  #  cloud_id = ""
-  #  folder_id = ""
+#  token = ""
+#  cloud_id = ""
+  folder_id = "b1gtus05hgmcr750cbi3"
   zone = "ru-central1-a"
 }
 
