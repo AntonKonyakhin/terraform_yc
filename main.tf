@@ -1,21 +1,21 @@
 provider "yandex" {
 #  token = ""
 #  cloud_id = ""
-  folder_id = "b1gtus05hgmcr750cbi3"
-  zone = "ru-central1-a"
+  folder_id = var.yc_folder_id
+  zone = var.yc_zone 
 }
 
 resource "yandex_compute_instance" "vm-1" {
   name = "terraform1"
 
   resources {
-    cores  = 2
-    memory = 2
+    cores  = var.vm-1_cores
+    memory = var.vm-1_memory
   }
 
   boot_disk {
     initialize_params {
-      image_id = "fd8hjvnsltkcdeqjom1n"
+      image_id = var.image_id
 
     }
   }
@@ -34,13 +34,13 @@ resource "yandex_compute_instance" "vm-2" {
   name = "terraform2"
 
   resources {
-    cores  = 2
-    memory = 4
+    cores  = var.vm-2_cores
+    memory = var.vm-2_memory
 
   }
   boot_disk {
     initialize_params {
-      image_id = "fd8hjvnsltkcdeqjom1n"
+      image_id = var.image_id
     }
   }
   network_interface {
@@ -58,25 +58,9 @@ resource "yandex_vpc_network" "network-1" {
 
 resource "yandex_vpc_subnet" "subnet-1" {
   name           = "subnet1"
-  zone           = "ru-central1-a"
+  zone           = var.yc_zone
   network_id     = yandex_vpc_network.network-1.id
-  v4_cidr_blocks = ["192.168.10.0/24"]
+  v4_cidr_blocks = var.subnet_1
 }
 
-output "internal_ip_address_vm_1" {
-  value = yandex_compute_instance.vm-1.network_interface.0.ip_address
-}
-
-output "internal_ip_address_vm_2" {
-  value = yandex_compute_instance.vm-2.network_interface.0.ip_address
-}
-
-
-output "external_ip_address_vm_1" {
-  value = yandex_compute_instance.vm-1.network_interface.0.nat_ip_address
-}
-
-output "external_ip_address_vm_2" {
-  value = yandex_compute_instance.vm-2.network_interface.0.nat_ip_address
-}
 
